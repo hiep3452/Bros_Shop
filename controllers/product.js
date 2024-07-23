@@ -357,7 +357,7 @@ exports.addOrder = (req, res, next) => {
 };
 
 exports.postAddOrder = async (req, res, next) => {
-  console.log(req.session.cart);
+  // console.log(req.session.cart);
   if (req.session.cart.totalQty) {
     var order = new Order({
       user: req.user,
@@ -366,14 +366,15 @@ exports.postAddOrder = async (req, res, next) => {
       phoneNumber: req.body.phone
     });
 
-    for (var id in req.session.cart.items) {
-      await Products.findOne({ _id: id })
-        .then(product => {
-          product.buyCounts += parseInt(req.session.cart.items[id].qty);
-          product.save();
-        })
-        .catch(err => console.log(err));
-    }
+    // for (var item in req.session.cart.items) {
+    //   // console.log(item);
+    //   await Products.findOne({ _id: id })
+    //     .then(product => {
+    //       product.buyCounts += parseInt(req.session.cart.items[id].qty);
+    //       product.save();
+    //     })
+    //     .catch(err => console.log(err));
+    // }
 
     order.save((err, result) => {
       req.flash("success", "Thanh toán thành công!");

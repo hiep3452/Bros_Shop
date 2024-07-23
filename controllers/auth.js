@@ -1,6 +1,7 @@
 const passport = require("passport");
 const Cart = require("../models/cart");
-const nodemailer = require("nodemailer");
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 const Users = require("../models/user");
 var bcrypt = require("bcryptjs");
 var randomstring = require("randomstring");
@@ -72,17 +73,19 @@ exports.postSignUp = (req, res, next) => {
 };
 
 exports.getVerifyEmail = (req, res, next) => {
-  var transporter = nodemailer.createTransport({
-    service: "Gmail",
+  var transporter = nodemailer.createTransport(smtpTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
     auth: {
-      user: "nocodenolife2527@gmail.com",
-      pass: "password2527@"
+     user: "hiep3452@gmail.com",
+      pass: "kcxvpfczlnltzrtj"
     }
-  });
+  }));
   Users.findOne({ username: req.user.username }).then(user => {
     var verification_token = randomstring.generate({
       length: 10
     });
+
     var mainOptions = {
       from: "Crepp so gud",
       to: req.user.email,
@@ -159,10 +162,11 @@ exports.postForgotPass = (req, res, next) => {
     } else {
       var transporter = nodemailer.createTransport({
         service: "Gmail",
+        host: 'smtp.gmail.com',
         auth: {
-          user: "nocodenolife2527@gmail.com",
-          pass: "password2527@"
-        }
+          user: "hiep3452@gmail.com",
+          pass: "kcxvpfczlnltzrtj"
+        } 
       });
       var tpass = randomstring.generate({
         length: 6
